@@ -42,7 +42,7 @@ void matrix_init(double a[N][N], double b[N][N], double c[N][N])
     }
 }
 
-void dgemm_def(double a[N][N], double b[N][N], double c[N][N])
+void dgemm_def(double a[N][N], double b[N][N], double c[N][N])   // 1 
 {
     for (int i = 0; i < N; i++)
     {
@@ -80,7 +80,7 @@ void dgemm_transpose(double a[N][N], double b[N][N], double c[N][N])
     free(tmp);
 }
 
-void dgemm_interchange(double a[N][N], double b[N][N], double c[N][N])
+void dgemm_interchange(double a[N][N], double b[N][N], double c[N][N]) // 2
 {
     for (int i = 0; i < N; i++)
     {
@@ -93,7 +93,7 @@ void dgemm_interchange(double a[N][N], double b[N][N], double c[N][N])
         }
     }
 }
-void dgemm_block(double a[N][N], double b[N][N], double c[N][N])
+void dgemm_block(double a[N][N], double b[N][N], double c[N][N])  // 2
 {
     for (int ii = 0; ii < N; ii += BS)
     {
