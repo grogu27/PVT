@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define THREADS 4
-
+// #define THREADS 4
+int THREADS = 2;
 int m = 15000, n = 15000;
 
 void *xmalloc(size_t size) {
@@ -89,24 +89,36 @@ double run_serial() {
 }
 
 int main(int argc, char **argv) {
-    printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
-    printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
-    printf("15 000 --> %d threads\n", THREADS);
-    printf("C: %.6f\n\n", run_serial()/run_parallel());
+    for (; THREADS <= 12; THREADS *= 6)
+    {
+      for (int k = 15000; k <= 25000 ; k += 5000){
+        m = k;
+        n = k;
+        double res = run_serial()/run_parallel();
+        printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
+        printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
+        printf("%d--> %d threads\n",m, THREADS);
+        printf("C: %.6f\n\n", res);
+      }
+    }
+    // printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
+    // printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
+    // printf("15 000 --> %d threads\n", THREADS);
+    // printf("C: %.6f\n\n", run_serial()/run_parallel());
 
-    m = 20000;
-    n = 20000;
-    printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
-    printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
-    printf("20 000 --> %d threads\n", THREADS);
-    printf("C: %.6f\n\n", run_serial()/run_parallel());
+    // m = 20000;
+    // n = 20000;
+    // printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
+    // printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
+    // printf("20 000 --> %d threads\n", THREADS);
+    // printf("C: %.6f\n\n", run_serial()/run_parallel());
 
-    m = 20000;
-    n = 20000;
-    printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
-    printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
-    printf("25 000 --> %d threads\n", THREADS);
-    printf("C: %.6f\n", run_serial()/run_parallel());
+    // m = 20000;
+    // n = 20000;
+    // printf("Matrix-vector (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
+    // printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
+    // printf("25 000 --> %d threads\n", THREADS);
+    // printf("C: %.6f\n", run_serial()/run_parallel());
 
     return 0;
 }
