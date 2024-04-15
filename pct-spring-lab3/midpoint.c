@@ -22,7 +22,7 @@ double func(double x) { return (pow(x, 4) / (0.5 * pow(x, 2) + x + 6)); }
 void serial() {
     const double a = 0.4;
     const double b = 1.5;
-    const int n = 10000;
+    const int n = 200000000;
     double h = (b - a) / n;
     double s = 0.0;
     t_serial = wtime();
@@ -30,6 +30,7 @@ void serial() {
         s += func(a + h * (i + 0.5));
     s *= h;
     t_serial = wtime() - t_serial;
+    printf("n = %d\n", n);
     printf("Elapsed time (serial): %.6f sec.\n", t_serial);
     printf("Result: %.12f\n", s);
 }
@@ -65,6 +66,7 @@ void parallel() {
                 delta = fabs(sq[k] - sq[k ^ 1]) / 3.0;
         }
         #pragma omp master
+        printf("n = %d\n", n);
         printf("Result: %.12f; Runge rule: EPS = %e, n = %d\n", sq[k], eps, n / 2);    
     }
         //t_parallel = wtime() - t_parallel;
