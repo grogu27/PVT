@@ -17,12 +17,14 @@ double wtime() {
     return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
 }
 
-double func(double x) { return (pow(x, 4) / (0.5 * pow(x, 2) + x + 6)); }
+double func(double x) { 
+    return (sin(x + 2)/(0.4 + cos(x))); 
+}
 
 void serial() {
-    const double a = 0.4;
-    const double b = 1.5;
-    const int n = 200000000;
+    const double a = -1;
+    const double b = 1;
+    const int n = 400000000;
     double h = (b - a) / n;
     double s = 0.0;
     t_serial = wtime();
@@ -32,12 +34,12 @@ void serial() {
     t_serial = wtime() - t_serial;
     printf("n = %d\n", n);
     printf("Elapsed time (serial): %.6f sec.\n", t_serial);
-    printf("Result: %.12f\n", s);
+    printf("Result: %.12f\n\n", s);
 }
 
 void parallel() {
-    const double a = 0.4;
-    const double b = 1.5;
+    const double a = -1;
+    const double b = 1;
     const int n0 = 100000000;
     const double eps = 1E-5;
     printf("Numerical integration: [%f, %f], n0 = %d, EPS = %f\n", a, b, n0, eps);
@@ -78,7 +80,7 @@ void parallel() {
 
 
 int main() {
-    printf("VARIANT: %d\n", 11 % 6 + 1);
+    printf("VARIANT: %d\n", 15 % 6 + 1);
     char buff[100] = "# Threads   Speedup\n";
     for (; THREADS <= 8; THREADS += 2) {
         printf("-------------%d-------------\n", THREADS);
@@ -86,12 +88,12 @@ int main() {
         serial();
         printf("> parallel\n");
         parallel();
-        printf("> speed\n");
-        printf("s: %f\n", t_serial / t_parallel);
+        printf("Speedup: %f\n", t_serial / t_parallel);
         printf("---------------------------\n");
         char tmp[20];
         sprintf(tmp, "%d\t\t%f\n", THREADS, t_serial / t_parallel);
         strcat(buff, tmp);
+        printf("\n\n");
     }
     strcat(buff, "\0");
     FILE* file = fopen("prog-midpoint.dat", "w");
