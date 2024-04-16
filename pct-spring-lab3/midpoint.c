@@ -46,7 +46,7 @@ void parallel() {
     double sq[2]; 
     double t = omp_get_wtime();
     //t_parallel = wtime();
-    #pragma omp parallel
+    #pragma omp parallel num_threads(THREADS)
     {
         int n = n0, k;
         double delta = 1;

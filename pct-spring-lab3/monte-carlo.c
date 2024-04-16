@@ -56,7 +56,7 @@ void parallel() {
   int in = 0;
   double s = 0;
   t_parallel = wtime();
-#pragma omp parallel
+#pragma omp parallel num_threads(THREADS)
   {
     double s_loc = 0;
     int in_loc = 0;
