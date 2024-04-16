@@ -30,7 +30,6 @@ double func(double x, double y) {
   return (x/(y*y)); 
 }
 
-const double PI = 3.14159265358979323846;
 int n = 10000000;
 
 void serial() {
@@ -40,7 +39,7 @@ void serial() {
   for (int i = 0; i < n; i++) {
     double x = getrand_serial() ;            /* x in (0, 1) */
     double y = getrand_serial() * 3 + 2;     /* y in (2, 5) */
-     if (y >= 2 && y <= 5) {
+     if (x > 0 && x < 1 && y >= 2 && y <= 5) {
       in++;
       s += func(x, y);
     }
@@ -63,9 +62,9 @@ void parallel() {
     unsigned int seed = omp_get_thread_num();
 #pragma omp for nowait
     for (int i = 0; i < n; i++) {
-      double x = getrand_parallel(&seed) - 1; /* x in (0, 1) */
-      double y = getrand_parallel(&seed);     /* y in (2, 5) */
-      if (y >= 2 && y <= 5) {
+      double x = getrand_parallel(&seed); /* x in (0, 1) */
+      double y = getrand_parallel(&seed) * 3 + 2;     /* y in (2, 5) */
+      if (x > 0 && x < 1 && y >= 2 && y <= 5) {
         in_loc++;
         s_loc += func(x, y);
       }
