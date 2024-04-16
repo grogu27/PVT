@@ -38,6 +38,6 @@ for i in range(2):
     filename = f'prog-monte-carlo-{i}.dat'
     threads_mc, speedup_mc = read_speedup_data(filename)
     label = f'10^{7 if i == 0 else 8}'
-    plot_speedup(threads_mc, speedup_mc, f'Зависимость коэффициента ускорения от числа потоков (Monte Carlo) {10**7 if i == 0 else 10**8}', label, i)
+    plot_speedup(threads_mc, speedup_mc, f'Зависимость коэффициента ускорения от числа потоков (Monte Carlo) {10**7 if i == 0 else 10**8}', label, i==0)
 #plt.legend()
 plt.savefig('speedup_monte_carlo.png')
