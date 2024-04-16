@@ -22,19 +22,25 @@ double func(double x) {
 }
 
 void serial() {
-    const double a = -1;
-    const double b = 1;
-    const int n = 400000000;
+  const double a = -1;
+  const double b = 1;
+  const int n0 = 100000000;
+  int n = n0, k;
+  const double eps = 1E-5;
+  double sq[2];
+  double delta = 1;
+  t_serial = wtime();
+  for (k = 0; delta > eps; n *= 2, k ^= 1) {
     double h = (b - a) / n;
     double s = 0.0;
-    t_serial = wtime();
-    for (int i = 0; i < n; i++) 
-        s += func(a + h * (i + 0.5));
-    s *= h;
-    t_serial = wtime() - t_serial;
-    printf("n = %d\n", n);
-    printf("Elapsed time (serial): %.6f sec.\n", t_serial);
-    printf("Result: %.12f\n\n", s);
+    for (int i = 0; i < n; i++) s += func(a + h * (i + 0.5));
+        sq[k] = s * h;
+    if (n > n0) 
+        delta = fabs(sq[k] - sq[k ^ 1]) / 3.0;
+  }
+  t_serial = wtime() - t_serial;
+  printf("Elapsed time (serial): %.6f sec.\n", t_serial);
+  printf("Result: %.12f\n", sq[k]);
 }
 
 void parallel() {
