@@ -9,7 +9,7 @@ def read_speedup_data(filename):
         speedup = [float(row[1]) for row in data]
     return threads, speedup
 
-def plot_speedup(threads, speedup, title, label):
+def plot_speedup(threads, speedup, title, label, draw_line = 1):
     plt.plot(threads, speedup, marker='o', linestyle='-', label=label)
     plt.xlabel('Number of Threads')
     plt.ylabel('Speedup')
@@ -19,9 +19,10 @@ def plot_speedup(threads, speedup, title, label):
     plt.tight_layout()
 
     # Линия линейного ускорения
-    max_threads = max(threads)
-    linear_speedup = [thread for thread in threads]
-    plt.plot(threads, linear_speedup, linestyle='--', color='red', label='Linear Speedup')
+    if(draw_line):
+        max_threads = max(threads)
+        linear_speedup = [thread for thread in threads]
+        plt.plot(threads, linear_speedup, linestyle='--', color='red', label='Linear Speedup')
     
     plt.legend()
 
@@ -37,5 +38,6 @@ for i in range(2):
     filename = f'prog-monte-carlo-{i}.dat'
     threads_mc, speedup_mc = read_speedup_data(filename)
     label = f'10^{7 if i == 0 else 8}'
-    plot_speedup(threads_mc, speedup_mc, f'Зависимость коэффициента ускорения от числа потоков (Monte Carlo) {10**7 if i == 0 else 10**8}', label)
+    plot_speedup(threads_mc, speedup_mc, f'Зависимость коэффициента ускорения от числа потоков (Monte Carlo) {10**7 if i == 0 else 10**8}', label, i)
+#plt.legend()
 plt.savefig('speedup_monte_carlo.png')
