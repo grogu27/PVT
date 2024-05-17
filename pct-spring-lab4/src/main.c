@@ -11,7 +11,7 @@ int main()
 {
     double TtotalSerial = run_serial();
     write_serial(TtotalSerial);
-    for(int i = 2; i<5; i++){
+    for(int i = 2; i<=8; i+=2){
         double TtotalOneCriticle = run_one_criticle(i);
         double TtotalSixAtomar = run_six_atomar(i);
         double TtotalNBlock = run_nblock(i);
@@ -22,6 +22,7 @@ int main()
         double ResNBlock = S(TtotalSerial,TtotalNBlock);
         double ResRedundantCalculations = S(TtotalSerial,TtotalRedundantCalculations);
         double ResStreamStorage = S(TtotalSerial,TtotalStreamStorage);
+        printf("-------------------------%d--------------------\n", i);
         printf("One critical result: %f\n",ResOneCriticle);
         printf("Six atomar result: %f\n",ResSixAtomar);
         printf("N Block result: %f\n",ResNBlock);

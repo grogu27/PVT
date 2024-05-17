@@ -16,7 +16,6 @@ set format x "%.0f"
 set xtics 2,1,4
 
 plot x title "Linear speedup" with lines lc rgb 'blue' lt 1 lw 2,\
-     x**2 title "Quadratic complexity (N^2)" with lines lc rgb 'red' lt 7 lw 2, \
      'res1.txt' using 1:2 title "One critical" with linespoints ls 2,\
      'res2.txt' using 1:2 title "Six atomar" with linespoints ls 3,\
      'res3.txt' using 1:2 title "Nblock" with linespoints ls 4,\
