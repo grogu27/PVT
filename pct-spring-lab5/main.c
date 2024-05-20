@@ -4,7 +4,7 @@
 #include <omp.h>
 
 #define CLOCK_MONOTONIC	1
-int size = 100000;
+int size = 1000000;
 int THREASHOLD = 1000;
 int threshold = 1000;
 
@@ -78,28 +78,42 @@ void quicksort_tasks(int *v, int low, int high) {
         quicksort_tasks(v, i, high);
     }
 }
-
-int main() {
-    int arr[size];
-
+void print_arr(int *arr)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+void fillArrayWithRandomValues(int arr[]) {
+    srand(time(0));
     for (int i = 0; i < size; i++) {
         arr[i] = rand() % 1000 + 1;
     }
+}
+
+int main() {
+    int arr[size];
+    fillArrayWithRandomValues(arr);
 
     double t = wtime();
     quicksort_serial(arr, 0, size - 1);
     t = wtime() - t;
     printf("Serial time: %f \n", t);
+    //print_arr(arr);
 
     for (int i = 2; i <= 8; i += 2) {
         double time_omp;
-        time_omp = wtime();
         printf("------------%d------------\n", i);
+        fillArrayWithRandomValues(arr);
+        time_omp = wtime();
         #pragma omp parallel num_threads(i)
         {
             #pragma omp single
             quicksort_tasks(arr, 0, size - 1);
         }
+        //print_arr(arr);
         time_omp = wtime() - time_omp;
         printf("Tasks time: %f \n", time_omp);
         printf("Speedup: %.6f\n\n", speadup(t, time_omp));
